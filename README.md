@@ -1,4 +1,6 @@
-# Order book simulation development using python
+# Order book simulation development 
+
+### Bachelor's project using python
 
 ## What is an order book?
 An order book is an essential tool in the functioning of financial markets, especially in electronic markets. It represents an organized list of buy and sell orders for a specific asset, showing market depth and the price levels at which participants are willing to buy or sell.
@@ -10,3 +12,4 @@ For this project, we integrated key concepts to model real-market behavior such 
 
 - Fixing system: Implementation of an efficient fixing mechanism to simulate the opening and closing fixings, as done in European markets. Fixing is a process used to determine the opening and closing prices of assets in financial markets.
 
+## Introduction
