@@ -57,25 +57,29 @@ If a given price allows for a higher executed volume than the current maximum, w
 At the end of the loop, we return the determined fixing price along with the corresponding maximum volume.
 
 ## 3rd part: Example implementation to test the class
-We initialize an Ordre object with a tick size of 0.01 (the minimum price increment) and a lot size of 1 (the minimum tradeable unit).
-This instance will manage buy and sell orders in a structured order book. We then add sell orders (maker role):
+We initialize an Ordre object with a tick size of 0.01 (the minimum price increment) and a lot size of 1 (the minimum tradeable unit). This instance will manage buy and sell orders in a structured order book.
+
+We then add sell orders (maker role):
 
 - Trader Alain places a sell order at 100.5 for 100 units.
 - Trader Bernard places a sell order at 101 for 5 units.
 Both traders are makers, meaning their orders are added to the order book and will remain until a counterparty (a taker) matches them.
+
 - Trader George places a sell order at 98.5 as a maker. This is below existing buy orders, so it remains in the order book until a buyer (taker) matches it.
 
-Furthermore, we add buy orders (maker and taker roles):
+Next, we add buy orders (maker and taker roles):
 
-- Trader Emma places a buy order at 99.5 for 2 units as a maker.Since no one is selling at 99.5 or below, the order is added to the buy side of the order book.
-- Trader Jose places a buy order at 102 for 3 units as a taker. Since 102 is higher than the available sell orders (100.5 and 101), the order is immediately executed, buying from the lowest-priced sell orders first.
-- Trader Claude places a buy order at 101.5 for 3 units as a taker. The order is matched with existing sell orders at 100.5 and 101 if there is enough supply.
-- Trader Claude submits another buy order at 101.5 for 7 units as a taker.Since 101.5 is higher than the current best sell price, this order immediately executes, consuming the lowest-priced sell orders.
+- Trader Emma places a buy order at 99.5 for 2 units as a taker. Since George is selling at 98.5, her order is immediately executed at 98.5, buying 2 units from George.
+- Trader José places a buy order at 102 for 3 units as a taker. Since 102 is higher than the available sell orders (e.g. George if remaining, Alain at 100.5 and Bernard at 101), the order is immediately executed, buying from the lowest-priced sell orders first.
+- Trader Claude places a buy order at 101.5 for 3 units as a taker. The order is matched with existing sell orders at 100.5, starting with Alain’s offer if there’s remaining quantity.
+- Trader Claude submits another buy order at 101.5 for 7 units as a taker. Since 101.5 is higher than the current best sell price, this order immediately executes, consuming the lowest-priced sell orders (Alain then Bernard if necessary).
 
-We have also Trader Clara wants to buy 20 units at 99.5, but there may not be enough sellers at or below that price. The available sell orders are executed first, and any unfulfilled quantity is added as a maker order at 99.5.
+We also have:
 
-Finally we display the order book to observe the state after transactions. We cancel the order made by trader Alain and we again display the updated order book. This helps us verify that the cancellation was successful.
+Trader Clara wants to buy 20 units at 99.5. If there are still sellers at or below that price (e.g. George if not fully matched), her order is partially or fully matched. Any unfilled quantity is added as a maker order at 99.5.
 
-This example effectively tests different trading scenarios, including market orders, limit orders, partial executions, and order cancellations.
+Finally, we display the order book to observe the state after transactions. We cancel the order made by trader Alain and again display the updated order book. This helps us verify that the cancellation was successful.
+
+
 
 
